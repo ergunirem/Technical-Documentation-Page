@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" type="text/css" href="index.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+        <title>Documentation Page</title>
+    </head>
+    <body>
+        <nav id="navbar"> 
+            <header>Readability Program</header>
+            <ul>
+                <li><a class="nav-link" href="#Introduction">Introduction</a></li>
+                <li><a class="nav-link" href="#How_it_works">How it works</a> </li>
+                <li><a class="nav-link" href="#Reading_Levels">Reading Levels</a> </li>
+                <li><a class="nav-link" href="#Coding_behind_the_program">Coding behind the program</a> </li>
+                <li><a class="nav-link" href="#Reference">Reference</a> </li>
+                <li><a class="nav-link" href="#Source_Code:_GitHub">Source Code: GitHub</a> </li>
+          
+            </ul>
+        </nav>
+        <main id="main-doc">
+            
+            <section class="main-section" id="Introduction">
+                <header>Introduction</header>
+                <article>  
+                    <p>
+                        Readability is the ease with which a reader can understand a written text. 
+                        In natural language, the readability of text depends on its content 
+                        (the complexity of its vocabulary and syntax). Readability is more than simply legibility—which is a measure of 
+                        how easily a reader can distinguish individual letters or characters from each other. 
+                        Higher readability eases reading effort and speed for any reader, but it is especially important 
+                        for those who do not have high reading comprehension. In readers with average or poor reading comprehension, 
+                        raising the readability level of a text from mediocre to good can make the difference between success 
+                        and failure of its communication goals.                
+                    </p>
+                </article>
+            </section>
+            
+            <section class="main-section" id="How_it_works">
+                <header>How it works</header>
+                <article>
+                    <p>
+                        This is a program written in C that computes the approximate grade level needed to comprehend a given text.                       
+                    </p>
+                    <p>
+                        First the program prompts the user to insert some text:
+                    </p>
+                    <code>
+                        $ ./readability
+                        Text: 
+                    </code>
+                    <p>
+                        As the outcome, the program prints out the readability level.
+                    </p>
+                    <code>
+                        $ ./readability
+                        Text: Would you like them here or there? I would not like them here or there. I would not like them anywhere.
+                        Readability Level: Grade 2
+                    </code>
+                    <p>
+                        To calculate the readability level, the program counts the number of letters that show up in the text, 
+                        the number of words in a sentence and the the number of sentences. Lastly, it puts all the pieces together, 
+                        and calculates the readability level by using the Coleman-Liau index.
+                    </p>
+                    <p>
+                        If the resulting index number: 
+                        <ul>
+                            <li> 16 or higher (equivalent to or greater than a senior undergraduatereading level),
+                                 the program outputs "Grade 16+" </li>
+                            <li> less than 1, the program outputs "Before Grade 1".</li>
+                            <li> for the numbers in between, the program outputs the exact Grade.</li>
+                        </ul>
+                    </p>
+                </article>
+            </section>
+
+            <section class="main-section" id="Reading_Levels">
+                <header>Reading Levels</header>
+                <article>
+                    <p>
+                        According to Scholastic, E.B. White’s “Charlotte’s Web” is between a second and fourth grade reading level, 
+                        and Lois Lowry’s “The Giver” is between an eighth grade reading level and a twelfth grade reading level. 
+                        What does it mean, though, for a book to be at a “fourth grade reading level”?  
+                    </p>
+                    <p>
+                        Well, in many cases, a human expert might read a book and make a decision on the grade 
+                        for which they think the book is most appropriate. But you could also imagine an algorithm attempting 
+                        to figure out what the reading level of a text is.    
+                    </p>
+                    <p>
+                        So what sorts of traits are characteristic of higher reading levels? Well, longer words probably correlate with higher reading levels. 
+                        Likewise, longer sentences probably correlate with higher reading levels, too. A number of “readability tests” have been developed over the years, 
+                        to give a formulaic process for computing the reading level of a text. 
+                    </p>
+                    <p>
+                        One such readability test is the Coleman-Liau index. The Coleman-Liau index of a text is designed to output what (U.S.) 
+                        grade level is needed to understand the text. The formula is:
+                    </p>
+                    <code>
+                        index = 0.0588 * L - 0.296 * S - 15.8
+                    </code>
+                    <p>
+                        Here, 
+                        <ul>
+                            <li>L is the average number of letters per 100 words in the text</li>
+                            <li>S is the average number of sentences per 100 words in the text</li>
+                        </ul>
+                    </p>
+
+                </article>
+            </section>
+
+            <section class="main-section" id="Coding_behind_the_program">
+                <header>Coding behind the program</header>
+                <article>
+                    <p>
+                       Here is the code for the Readability Program: 
+                    </p>
+                    <code>
+                        #include stdio.h
+                        #include string.h
+                        #include math.h
+                    </code>
+                    <code>
+                        int main(void)
+                        {
+                            // Get the text input from the user
+                            string text = get_string("Text: ");
+
+                            //Define variables for the total number of letters, words, and sentences
+                            int letters = 0;
+                            int words = 1;
+                            int sentences = 0;
+
+                            //Loop through the text to detect certain characters
+                            for (int i = 0; i < strlen(text); i++)
+                            {
+                                //Count the letters by detecting alphabetical characters
+                                if ((text[i] >= 'a' && text[i] <= 'z') || (text[i] >= 'A' && text[i] <= 'Z'))
+                                {
+                                    letters += 1;
+                                }
+                                //Calculate the number of words by detecting blank spaces
+                                if (text[i] == ' ')
+                                {
+                                    words += 1;
+                                }
+                                //Calculate the number of words by assuming characters
+                                //that ends with a . or a ! or a ? to be a sentence
+                                if (text[i] == '.' || text[i] == '!' || text[i] == '?')
+                                {
+                                    sentences += 1;
+                                }
+                            }
+
+                            //Calculate the average number of letters per 100 words for the Coleman-Liau index
+                            float L = (float) letters * 100 / (float) words;
+                            //Calculate the average number of sentences per 100 words for the Coleman-Liau index
+                            float S = (float) sentences * 100 / (float) words;
+
+                            //Calculate the Coleman-Liau index rounded to the nearest integer
+                            int index = round((0.0588 * L) - (0.296 * S) - 15.8);
+
+                            // For the reading level that is smaller than Grade 1
+                            if (index < 1)
+                            {
+                                printf("Before Grade 1\n");
+                            }
+                            // For the reading level that is equivalent to or greater than a senior undergraduate reading level
+                            else if (index >= 16)
+                            {
+                                printf("Grade 16+\n");
+                            }
+                            //For the levels in between print as output "Grade X"
+                            else
+                            {
+                                printf("Grade %i\n", index);
+                            }
+                        }
+                    </code>
+                </article>
+            </section>
+
+
+            <section class="main-section" id="Source_Code:_GitHub">
+                <header>Code Source: GitHub</header>
+                <article>
+                    <p> Click to see the source code of this program at my
+                      <a
+                        href="https://cs50.harvard.edu/x/2020/psets/2/readability/"
+                        target="_blank"
+                        >GitHub page</a>
+                    </p>
+                </article>
+            </section>
+
+          
+
+            <section class="main-section" id="Reference">
+                <header>Reference</header>
+                <article>
+                    <p>
+                      This program is written as an assignment for 
+                      <a
+                        href="https://cs50.harvard.edu/x/2020/psets/2/readability/"
+                        target="_blank"
+                        >Harvard's CS50x course</a>
+                    </p>
+                </article>
+            </section>
+   
+        </main>
+    </body>
+</html>
